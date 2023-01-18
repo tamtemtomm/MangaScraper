@@ -13,13 +13,11 @@ def scraper(url):
         os.makedirs(f'Manga/{page}')
         web = requests.get(url)
         images = bs4.BeautifulSoup(web.content, 'lxml').find('div', attrs={'id':'chimg-auh'}).find_all('img')
-        pic_num = 1
         for image in images:
             img = image['src']
             img_data = requests.get(img).content
             with open(f'Manga/{page}/pic{pic_num}.png', 'wb') as handler:
                 handler.write(img_data)
-            pic_num+=1
         try :    
             url = bs4.BeautifulSoup(web.content, 'lxml').find('a', text='Chapter Selanjutnya »')['href']
             print(f'Chapter {page} Selesai')
